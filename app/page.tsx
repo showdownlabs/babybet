@@ -3,6 +3,8 @@ import { supabaseServer } from '@/lib/supabaseServer'
 import { buildVenmoNote, venmoLinks } from '@/lib/venmo'
 import { clampName, genCode, formatISODate } from '@/lib/utils'
 import GuessForm from '@/components/GuessForm'
+import RulesCard from '@/components/RulesCard'
+import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,15 +18,32 @@ export type ActionState = {
 
 export default function Page() {
   return (
-    <main className="space-y-4">
-      <h1 className="text-2xl font-bold">When will Baby arrive?</h1>
-      <p className="text-sm text-gray-600">
-        Due date: <strong>{formatISODate(config.dueDate)}</strong>
-      </p>
+    <main className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">When will Baby arrive?</h1>
+        <p className="text-sm text-gray-600 mt-1">
+          Due date: <strong>{formatISODate(config.dueDate)}</strong>
+        </p>
+      </div>
+
+      <RulesCard />
+
+      <div className="text-center">
+        <Link href="/rules" className="text-sm text-blue-600 hover:underline">
+          Read detailed rules & FAQ →
+        </Link>
+      </div>
+
       <GuessForm createGuess={createGuess} windowStart={config.windowStart} windowEnd={config.windowEnd} />
-      <p className="text-xs text-gray-500">
-        By submitting, you'll be redirected to Venmo to complete your ${config.venmoAmount} bet.
-      </p>
+      
+      <div className="text-xs text-gray-500 space-y-1">
+        <p>
+          💳 By submitting, you'll be redirected to Venmo to complete your ${config.venmoAmount} payment.
+        </p>
+        <p>
+          📝 Want to bet on multiple days? Submit the form once per date!
+        </p>
+      </div>
     </main>
   )
 }
