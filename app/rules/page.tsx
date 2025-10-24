@@ -2,6 +2,8 @@ import { config } from '@/lib/config'
 import { formatISODate } from '@/lib/utils'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default function RulesPage() {
   return (
     <main className="space-y-6 max-w-2xl">

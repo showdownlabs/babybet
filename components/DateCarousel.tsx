@@ -6,6 +6,7 @@ type DateCarouselProps = {
   windowEnd: Date
   dueDate: Date
   guessCounts: Record<string, number>
+  guessProfiles: Record<string, string[]>
   selectedDate: string | null
   onDateSelect: (date: string) => void
 }
@@ -15,6 +16,7 @@ export default function DateCarousel({
   windowEnd,
   dueDate,
   guessCounts,
+  guessProfiles,
   selectedDate,
   onDateSelect,
 }: DateCarouselProps) {
@@ -106,6 +108,7 @@ export default function DateCarousel({
             const isDueDate = dateStr === dueDateStr
             const isSelected = dateStr === selectedDate
             const count = guessCounts[dateStr] || 0
+            const avatars = guessProfiles[dateStr] || []
 
             return (
               <button
@@ -116,7 +119,7 @@ export default function DateCarousel({
                 className={`
                   flex-shrink-0 snap-center
                   flex flex-col items-center justify-center
-                  w-20 h-24 rounded-xl border-2 transition-all
+                  w-24 h-28 rounded-xl border-2 transition-all relative
                   ${isSelected
                     ? 'border-black bg-black text-white shadow-lg scale-105'
                     : isDueDate
@@ -136,6 +139,29 @@ export default function DateCarousel({
                     Due Date
                   </span>
                 )}
+                
+                {/* Profile avatars */}
+                {avatars.length > 0 && (
+                  <div className="flex -space-x-2 mt-1">
+                    {avatars.slice(0, 3).map((avatar, idx) => (
+                      <img
+                        key={idx}
+                        src={avatar}
+                        alt="User"
+                        className="w-5 h-5 rounded-full border-2 border-white"
+                      />
+                    ))}
+                    {avatars.length > 3 && (
+                      <div className={`
+                        w-5 h-5 rounded-full border-2 border-white flex items-center justify-center text-xs font-medium
+                        ${isSelected ? 'bg-white text-black' : 'bg-gray-200 text-gray-700'}
+                      `}>
+                        +{avatars.length - 3}
+                      </div>
+                    )}
+                  </div>
+                )}
+                
                 {count > 0 && (
                   <span
                     className={`
@@ -172,7 +198,7 @@ export default function DateCarousel({
       </div>
 
       <p className="text-xs text-gray-500 mt-2">
-        Scroll to see all dates • Blue border = due date • Bet counts shown below each date
+        Scroll to see all dates • Blue border = due date • Profile pictures show authenticated users
       </p>
 
       <style jsx>{`

@@ -2,20 +2,25 @@
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import type { ActionState } from '@/app/page'
+import type { User } from '@supabase/supabase-js'
 import DateCarousel from './DateCarousel'
 
-export default function GuessForm({
+export default function AuthenticatedForm({
   createGuess,
   windowStart,
   windowEnd,
   guessCounts,
+  guessProfiles,
   dueDate,
+  user,
 }: {
   createGuess: (state: ActionState, formData: FormData) => Promise<ActionState>
   windowStart: Date
   windowEnd: Date
   guessCounts: Record<string, number>
+  guessProfiles: Record<string, string[]>
   dueDate: Date
+  user: User
 }) {
   const [state, formAction] = useFormState(createGuess, { ok: false })
   const [paymentMethod, setPaymentMethod] = useState<'venmo' | 'cash'>('venmo')
@@ -33,12 +38,19 @@ export default function GuessForm({
     }
   }, [state])
 
+  const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
+
   return (
-    <form action={formAction} className="space-y-4 rounded-2xl border p-4 shadow-sm">
-      <label className="block">
-        <span className="text-sm font-medium">Your name</span>
-        <input name="name" required placeholder="Alex" className="mt-1 w-full rounded-lg border px-3 py-2" />
-      </label>
+    <form action={formAction} className="space-y-4 rounded-2xl border p-4 shadow-sm bg-blue-50 border-blue-200">
+      <div className="pb-2 border-b border-blue-200">
+        <h3 className="font-semibold text-lg">Authenticated Bet</h3>
+        <p className="text-xs text-gray-600">Betting as {displayName}</p>
+      </div>
+
+      {/* Hidden input for name (auto-filled from user profile) */}
+      <input type="hidden" name="name" value={displayName} />
+      {/* Hidden input for user_id */}
+      <input type="hidden" name="userId" value={user.id} />
 
       <div className="space-y-2">
         <span className="text-sm font-medium block">Payment method</span>
@@ -73,6 +85,7 @@ export default function GuessForm({
         windowEnd={windowEnd}
         dueDate={dueDate}
         guessCounts={guessCounts}
+        guessProfiles={guessProfiles}
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
       />
@@ -85,7 +98,7 @@ export default function GuessForm({
       <button 
         type="submit" 
         disabled={!selectedDate}
-        className="w-full rounded-xl bg-black px-4 py-2 text-white disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+        className="w-full rounded-xl bg-blue-600 px-4 py-2 text-white disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors hover:bg-blue-700"
       >
         {paymentMethod === 'venmo' ? 'Place bet & Pay with Venmo' : 'Place bet (Pay cash in person)'}
       </button>

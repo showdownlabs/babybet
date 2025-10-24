@@ -2,7 +2,7 @@ import { config } from '@/lib/config'
 import { supabaseServer } from '@/lib/supabaseServer'
 import { buildVenmoNote, venmoLinks } from '@/lib/venmo'
 import { clampName, genCode, formatISODate } from '@/lib/utils'
-import GuessForm from '@/components/GuessForm'
+import BetFormContainer from '@/components/BetFormContainer'
 import RulesCard from '@/components/RulesCard'
 import Link from 'next/link'
 
@@ -21,15 +21,30 @@ export default async function Page() {
   // Fetch guess counts per date  
   const sb = supabaseServer()
   
-  // Fetch ALL guesses (filtering in-memory since Supabase date filtering isn't working)
+  // Fetch ALL guesses with profile data
   const { data: guesses } = await sb
     .from('guesses')
-    .select('guess_date')
+    .select('guess_date, user_id, profiles(avatar_url)')
   
-  // Count guesses per date
+  // Count guesses per date and group profiles
   const guessCounts: Record<string, number> = {}
-  guesses?.forEach(g => {
-    guessCounts[g.guess_date] = (guessCounts[g.guess_date] || 0) + 1
+  const guessProfiles: Record<string, string[]> = {}
+  
+  guesses?.forEach((g: any) => {
+    const date = g.guess_date
+    guessCounts[date] = (guessCounts[date] || 0) + 1
+    
+    // Add avatar URL if user is authenticated and has one
+    const profile = g.profiles
+    if (g.user_id && profile?.avatar_url) {
+      if (!guessProfiles[date]) {
+        guessProfiles[date] = []
+      }
+      // Only add unique avatars (in case user has multiple bets on same day)
+      if (!guessProfiles[date].includes(profile.avatar_url)) {
+        guessProfiles[date].push(profile.avatar_url)
+      }
+    }
   })
 
   return (
@@ -49,11 +64,12 @@ export default async function Page() {
         </Link>
       </div>
 
-      <GuessForm 
+      <BetFormContainer 
         createGuess={createGuess} 
         windowStart={config.windowStart} 
         windowEnd={config.windowEnd}
         guessCounts={guessCounts}
+        guessProfiles={guessProfiles}
         dueDate={config.dueDate}
       />
       
@@ -74,6 +90,7 @@ async function createGuess(_: ActionState, formData: FormData): Promise<ActionSt
   const name = clampName(String(formData.get('name') || ''))
   const guessDateStr = String(formData.get('guessDate') || '')
   const paymentMethod = String(formData.get('paymentMethod') || 'venmo')
+  const userId = String(formData.get('userId') || '')
 
   if (!name) return { ok: false, error: 'Please enter your name.' }
   if (!['venmo', 'cash'].includes(paymentMethod)) {
@@ -91,12 +108,19 @@ async function createGuess(_: ActionState, formData: FormData): Promise<ActionSt
   const note = buildVenmoNote(name, guessDateStr, code)
 
   const sb = supabaseServer()
-  const { error } = await sb.from('guesses').insert({
+  const insertData: any = {
     name,
     guess_date: guessDateStr,
     code,
     payment_provider: paymentMethod,
-  })
+  }
+  
+  // Add user_id if provided (authenticated user)
+  if (userId) {
+    insertData.user_id = userId
+  }
+
+  const { error } = await sb.from('guesses').insert(insertData)
   if (error) return { ok: false, error: 'Could not save your guess. Please try again.' }
 
   // Only generate Venmo links if payment method is venmo

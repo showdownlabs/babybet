@@ -1,16 +1,16 @@
 import { isAdminAuthed } from '@/lib/config'
-import PasscodeGate from '@/components/PasscodeGate'
+import AdminAuthGate from '@/components/AdminAuthGate'
 import AdminTable from '@/components/AdminTable'
 
 export const dynamic = 'force-dynamic'
 
-export default function AdminPage() {
-  const authed = isAdminAuthed()
+export default async function AdminPage() {
+  const authed = await isAdminAuthed()
   return (
     <main className="space-y-4">
       <h1 className="text-2xl font-bold">Admin</h1>
       {!authed ? (
-        <PasscodeGate />
+        <AdminAuthGate />
       ) : (
         <>
           <div className="flex items-center justify-between">

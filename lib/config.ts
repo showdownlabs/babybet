@@ -16,6 +16,7 @@ let _config: ReturnType<typeof getConfig> | null = null
 function getConfig() {
   return {
     supabaseUrl: required('NEXT_PUBLIC_SUPABASE_URL'),
+    supabaseAnonKey: required('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
     supabaseServiceRole: required('SUPABASE_SERVICE_ROLE_KEY'),
     dueDate: new Date(optional('DUE_DATE', '2025-02-25')),
     windowStart: new Date(optional('WINDOW_START', '2025-02-15')),
@@ -24,6 +25,7 @@ function getConfig() {
     venmoAmount: optional('VENMO_AMOUNT', '5'),
     venmoNoteTemplate: optional('VENMO_NOTE_TEMPLATE', 'Baby Bet — {name} — {date} — {code} — Due {dueDate}'),
     adminPasscode: required('ADMIN_PASSCODE'),
+    adminEmail: optional('ADMIN_EMAIL', ''),
     sessionTtlHours: Number(optional('SESSION_TTL_HOURS', '8')),
   }
 }
@@ -37,7 +39,21 @@ export const config = new Proxy({} as ReturnType<typeof getConfig>, {
   }
 })
 
-export function isAdminAuthed() {
+export async function isAdminAuthed() {
+  // Try new Google auth first
+  try {
+    const { createClient } = await import('./supabaseServerAuth')
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (user?.email === config.adminEmail) {
+      return true
+    }
+  } catch (error) {
+    // Fall through to legacy passcode check
+  }
+  
+  // Legacy passcode auth (kept for backward compatibility)
   const c = cookies().get('admin_auth')?.value
   return c === 'ok'
 }
