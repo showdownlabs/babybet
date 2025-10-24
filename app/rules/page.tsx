@@ -20,7 +20,7 @@ export default function RulesPage() {
           <li>• <strong>$2 per date</strong> — Bet on as many days as you want!</li>
           <li>• <strong>Due date:</strong> {formatISODate(config.dueDate)}</li>
           <li>• <strong>Betting window:</strong> {formatISODate(config.windowStart)} to {formatISODate(config.windowEnd)}</li>
-          <li>• <strong>Payment via Venmo</strong> — Bets aren't final until paid</li>
+          <li>• <strong>Payment via Venmo or Cash</strong> — Bets aren't final until paid</li>
         </ul>
       </div>
 
@@ -46,10 +46,14 @@ export default function RulesPage() {
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900">3. Pay via Venmo</h3>
+              <h3 className="font-semibold text-gray-900">3. Choose Payment Method</h3>
               <p className="mt-1">
-                After submitting, you'll be redirected to Venmo. The payment note will include your name, 
-                date, and verification code. <strong>Complete the ${config.venmoAmount} payment to make your bet official.</strong>
+                <strong>Venmo:</strong> After submitting, you'll be redirected to Venmo. The payment note will include your name, 
+                date, and verification code. Complete the ${config.venmoAmount} payment instantly.
+              </p>
+              <p className="mt-2">
+                <strong>Cash:</strong> After submitting, save your verification code. Pay ${config.venmoAmount} in cash 
+                in person and provide your code to confirm your bet.
               </p>
             </div>
 
@@ -83,19 +87,29 @@ export default function RulesPage() {
               <p className="font-semibold text-yellow-900">⚠️ Important</p>
               <p className="text-sm text-yellow-800 mt-1">
                 Your bet is <strong>NOT final</strong> until payment is received and confirmed. 
-                Make sure to complete the Venmo payment right after submitting your guess!
+                Make sure to complete payment right after submitting your guess!
               </p>
             </div>
             
-            <p>
-              After you submit your guess, you'll be redirected to Venmo with all the payment details 
-              pre-filled. Just tap "Pay" to complete the transaction.
-            </p>
-            
-            <p>
-              <strong>Can't find Venmo?</strong> Make sure the app is installed on your phone. 
-              If you don't have Venmo, you'll be redirected to the website instead.
-            </p>
+            <div>
+              <h3 className="font-semibold text-gray-900">💳 Venmo Payment</h3>
+              <p className="mt-1">
+                After you submit your guess, you'll be redirected to Venmo with all the payment details 
+                pre-filled. Just tap "Pay" to complete the transaction.
+              </p>
+              <p className="text-sm text-gray-600 mt-1">
+                <strong>Can't find Venmo?</strong> Make sure the app is installed on your phone. 
+                If you don't have Venmo, you'll be redirected to the website instead.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-gray-900">💵 Cash Payment</h3>
+              <p className="mt-1">
+                After you submit your guess, save your verification code. Bring ${config.venmoAmount} cash 
+                and your code to pay in person. Your bet will be marked as paid once received.
+              </p>
+            </div>
           </div>
         </section>
 

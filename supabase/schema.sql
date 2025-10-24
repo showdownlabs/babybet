@@ -15,7 +15,12 @@ create table if not exists public.guesses (
 
 alter table public.guesses enable row level security;
 
--- MVP uses service-role inserts via server action, so RLS can stay strict (no anon policies).
+-- Allow everyone to read guesses (for displaying bet counts)
+create policy "allow_select_all"
+on public.guesses for select
+using (true);
+
+-- MVP uses service-role inserts via server action
 -- If you want to allow anon insert in the future, uncomment this policy:
 -- create policy "allow_insert_to_anon"
 -- on public.guesses for insert to anon

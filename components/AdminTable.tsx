@@ -4,7 +4,7 @@ export default async function AdminTable() {
   const sb = supabaseServer()
   const { data } = await sb
     .from('guesses')
-    .select('id, created_at, name, guess_date, code, paid, paid_at')
+    .select('id, created_at, name, guess_date, code, paid, paid_at, payment_provider')
     .order('created_at', { ascending: false })
 
   async function markPaid(formData: FormData) {
@@ -27,6 +27,7 @@ export default async function AdminTable() {
             <th className="p-2">Name</th>
             <th className="p-2">Guess</th>
             <th className="p-2">Code</th>
+            <th className="p-2">Payment</th>
             <th className="p-2">Paid?</th>
           </tr>
         </thead>
@@ -37,6 +38,12 @@ export default async function AdminTable() {
               <td className="p-2">{r.name}</td>
               <td className="p-2">{r.guess_date}</td>
               <td className="p-2 font-mono">{r.code}</td>
+              <td className="p-2">
+                <span className="inline-flex items-center gap-1">
+                  {r.payment_provider === 'venmo' ? '💳' : '💵'}
+                  <span className="capitalize">{r.payment_provider || 'venmo'}</span>
+                </span>
+              </td>
               <td className="p-2">
                 <form action={markPaid} className="inline-flex items-center gap-2">
                   <input type="hidden" name="id" value={r.id} />

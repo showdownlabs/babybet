@@ -14,10 +14,10 @@ export default function RulesCard() {
           <p><strong>$2 per day</strong> — You can bet on multiple days! Each date costs $2</p>
         </div>
         
-        <div className="flex items-start gap-2">
-          <span className="font-bold min-w-[20px]">3.</span>
-          <p><strong>Pay via Venmo</strong> — After submitting, you'll be redirected to complete payment</p>
-        </div>
+              <div className="flex items-start gap-2">
+                <span className="font-bold min-w-[20px]">3.</span>
+                <p><strong>Pay via Venmo or Cash</strong> — Choose your payment method. Venmo redirects automatically, Cash is paid in person</p>
+              </div>
         
         <div className="flex items-start gap-2">
           <span className="font-bold min-w-[20px]">4.</span>

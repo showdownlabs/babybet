@@ -14,9 +14,24 @@ export type ActionState = {
   venmoDeep?: string
   venmoWeb?: string
   code?: string
+  paymentMethod?: 'venmo' | 'cash'
 }
 
-export default function Page() {
+export default async function Page() {
+  // Fetch guess counts per date  
+  const sb = supabaseServer()
+  
+  // Fetch ALL guesses (filtering in-memory since Supabase date filtering isn't working)
+  const { data: guesses } = await sb
+    .from('guesses')
+    .select('guess_date')
+  
+  // Count guesses per date
+  const guessCounts: Record<string, number> = {}
+  guesses?.forEach(g => {
+    guessCounts[g.guess_date] = (guessCounts[g.guess_date] || 0) + 1
+  })
+
   return (
     <main className="space-y-6">
       <div>
@@ -34,11 +49,17 @@ export default function Page() {
         </Link>
       </div>
 
-      <GuessForm createGuess={createGuess} windowStart={config.windowStart} windowEnd={config.windowEnd} />
+      <GuessForm 
+        createGuess={createGuess} 
+        windowStart={config.windowStart} 
+        windowEnd={config.windowEnd}
+        guessCounts={guessCounts}
+        dueDate={config.dueDate}
+      />
       
       <div className="text-xs text-gray-500 space-y-1">
         <p>
-          💳 By submitting, you'll be redirected to Venmo to complete your ${config.venmoAmount} payment.
+          💳 Choose Venmo or Cash payment • Venmo redirects automatically • Cash requires in-person confirmation
         </p>
         <p>
           📝 Want to bet on multiple days? Submit the form once per date!
@@ -52,8 +73,12 @@ async function createGuess(_: ActionState, formData: FormData): Promise<ActionSt
   'use server'
   const name = clampName(String(formData.get('name') || ''))
   const guessDateStr = String(formData.get('guessDate') || '')
+  const paymentMethod = String(formData.get('paymentMethod') || 'venmo')
 
   if (!name) return { ok: false, error: 'Please enter your name.' }
+  if (!['venmo', 'cash'].includes(paymentMethod)) {
+    return { ok: false, error: 'Invalid payment method.' }
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(guessDateStr)) return { ok: false, error: 'Pick a valid date.' }
 
   const guessDate = new Date(guessDateStr)
@@ -70,10 +95,16 @@ async function createGuess(_: ActionState, formData: FormData): Promise<ActionSt
     name,
     guess_date: guessDateStr,
     code,
+    payment_provider: paymentMethod,
   })
   if (error) return { ok: false, error: 'Could not save your guess. Please try again.' }
 
-  const { deep, web } = venmoLinks(note)
-  return { ok: true, venmoDeep: deep, venmoWeb: web, code }
+  // Only generate Venmo links if payment method is venmo
+  if (paymentMethod === 'venmo') {
+    const { deep, web } = venmoLinks(note)
+    return { ok: true, venmoDeep: deep, venmoWeb: web, code, paymentMethod: 'venmo' }
+  } else {
+    return { ok: true, code, paymentMethod: 'cash' }
+  }
 }
 
