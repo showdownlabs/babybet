@@ -51,7 +51,8 @@
     "hoursAgo": "hace {count}h",
     "daysAgo": "hace {count}d",
     "signInToView": "Inicia Sesión para Ver Apuestas Recientes",
-    "signInDescription": "¡Ve quién está apostando, su estado de pago y más! Inicia sesión con Google para desbloquear el feed de actividad en vivo y tu historial personal de apuestas."
+    "signInDescription": "¡Ve quién está apostando, su estado de pago y más! Inicia sesión con Google para desbloquear el feed de actividad en vivo y tu historial personal de apuestas.",
+    "signInWithGoogle": "Iniciar sesión con Google"
   },
   "home": {
     "hero": "🍼 Baby Bet",
@@ -105,6 +106,19 @@
     "venmoDidntOpen": "Si Venmo no se abrió,",
     "tapHere": "toca aquí",
     "rememberCash": "¡Recuerda pagar en efectivo en persona para finalizar tu apuesta!"
+  },
+  "confirmModal": {
+    "title": "Confirma Tu Apuesta",
+    "subtitle": "Por favor revisa los detalles de tu apuesta antes de enviar",
+    "name": "Nombre",
+    "yourGuess": "Tu Predicción",
+    "paymentMethod": "Pago",
+    "amount": "Cantidad",
+    "venmoNote": "Serás redirigido a Venmo para completar el pago de $2.",
+    "cashNote": "Recuerda pagar $2 en efectivo en persona. Tu apuesta no es final hasta que se reciba el pago.",
+    "goBack": "Volver",
+    "confirmBet": "Confirmar Apuesta",
+    "submitting": "Enviando..."
   },
   "rulesCard": {
     "howItWorks": "📋 Cómo funciona",

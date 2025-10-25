@@ -1,7 +1,8 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useFormState } from 'react-dom'
 import DateCarousel from './DateCarousel'
+import ConfirmBetModal from './ConfirmBetModal'
 import { useTranslations } from 'next-intl'
 
 type ActionState = {
@@ -37,10 +38,16 @@ export default function GuestForm({
   const showVenmo = locale !== 'es'
   const [paymentMethod, setPaymentMethod] = useState<'venmo' | 'cash'>(showVenmo ? 'venmo' : 'cash')
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [guestName, setGuestName] = useState('')
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
   const t = useTranslations('form')
 
   useEffect(() => {
     if (state.ok) {
+      setIsSubmitting(false)
+      setShowConfirmModal(false)
       if (state.paymentMethod === 'venmo' && state.venmoDeep && state.venmoWeb) {
         // Redirect to Venmo
         const timer = setTimeout(() => (window.location.href = state.venmoWeb!), 1200)
@@ -51,17 +58,48 @@ export default function GuestForm({
     }
   }, [state])
 
-  return (
-    <form action={formAction} className="space-y-4 rounded-2xl border p-4 shadow-sm">
-      <div className="pb-2 border-b">
-        <h3 className="font-semibold text-lg">{t('guestBet')}</h3>
-        <p className="text-xs text-gray-500">{t('guestBetDescription')}</p>
-      </div>
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Validate form
+    if (!guestName.trim()) {
+      return
+    }
+    if (!selectedDate) {
+      return
+    }
+    
+    // Show confirmation modal
+    setShowConfirmModal(true)
+  }
 
-      <label className="block">
-        <span className="text-sm font-medium">{t('yourName')}</span>
-        <input name="name" required placeholder={t('enterYourName')} className="mt-1 w-full rounded-lg border px-3 py-2" />
-      </label>
+  const handleConfirm = () => {
+    setIsSubmitting(true)
+    // Actually submit the form
+    if (formRef.current) {
+      formRef.current.requestSubmit()
+    }
+  }
+
+  return (
+    <>
+      <form ref={formRef} action={formAction} onSubmit={handleSubmit} className="space-y-4 rounded-2xl border p-4 shadow-sm">
+        <div className="pb-2 border-b">
+          <h3 className="font-semibold text-lg">{t('guestBet')}</h3>
+          <p className="text-xs text-gray-500">{t('guestBetDescription')}</p>
+        </div>
+
+        <label className="block">
+          <span className="text-sm font-medium">{t('yourName')}</span>
+          <input 
+            name="name" 
+            value={guestName}
+            onChange={(e) => setGuestName(e.target.value)}
+            required 
+            placeholder={t('enterYourName')} 
+            className="mt-1 w-full rounded-lg border px-3 py-2" 
+          />
+        </label>
 
       <div className="space-y-2">
         <span className="text-sm font-medium block">{t('paymentMethod')}</span>
@@ -134,6 +172,21 @@ export default function GuestForm({
           )}
         </div>
       )}
-    </form>
+      </form>
+
+      {/* Confirmation Modal */}
+      {selectedDate && (
+        <ConfirmBetModal
+          isOpen={showConfirmModal}
+          name={guestName}
+          selectedDate={selectedDate}
+          paymentMethod={paymentMethod}
+          locale={locale}
+          onConfirm={handleConfirm}
+          onCancel={() => setShowConfirmModal(false)}
+          isSubmitting={isSubmitting}
+        />
+      )}
+    </>
   )
 }

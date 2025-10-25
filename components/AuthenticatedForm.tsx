@@ -1,8 +1,9 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useFormState } from 'react-dom'
 import type { User } from '@supabase/supabase-js'
 import DateCarousel from './DateCarousel'
+import ConfirmBetModal from './ConfirmBetModal'
 import { useTranslations } from 'next-intl'
 
 type ActionState = {
@@ -40,10 +41,17 @@ export default function AuthenticatedForm({
   const showVenmo = locale !== 'es'
   const [paymentMethod, setPaymentMethod] = useState<'venmo' | 'cash'>(showVenmo ? 'venmo' : 'cash')
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
   const t = useTranslations('form')
+  
+  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
 
   useEffect(() => {
     if (state.ok) {
+      setIsSubmitting(false)
+      setShowConfirmModal(false)
       if (state.paymentMethod === 'venmo' && state.venmoDeep && state.venmoWeb) {
         // Redirect to Venmo
         const timer = setTimeout(() => (window.location.href = state.venmoWeb!), 1200)
@@ -54,16 +62,37 @@ export default function AuthenticatedForm({
     }
   }, [state])
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Validate form
+    if (!selectedDate) {
+      return
+    }
+    
+    // Show confirmation modal
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirm = () => {
+    setIsSubmitting(true)
+    // Actually submit the form
+    if (formRef.current) {
+      formRef.current.requestSubmit()
+    }
+  }
+
   const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
 
   return (
-    <form action={formAction} className="space-y-4 rounded-2xl border p-4 shadow-sm bg-blue-50 border-blue-200">
-      <div className="pb-2 border-b border-blue-200">
-        <h3 className="font-semibold text-lg">{t('authenticatedBet')}</h3>
-        <p className="text-xs text-gray-600">{t('bettingAs')} {displayName}</p>
-      </div>
+    <>
+      <form ref={formRef} action={formAction} onSubmit={handleSubmit} className="space-y-4 rounded-2xl border p-4 shadow-sm bg-blue-50 border-blue-200">
+        <div className="pb-2 border-b border-blue-200">
+          <h3 className="font-semibold text-lg">{t('authenticatedBet')}</h3>
+          <p className="text-xs text-gray-600">{t('bettingAs')} {displayName}</p>
+        </div>
 
-      {/* Hidden input for name (auto-filled from user profile) */}
+        {/* Hidden input for name (auto-filled from user profile) */}
       <input type="hidden" name="name" value={displayName} />
       {/* Hidden input for user_id */}
       <input type="hidden" name="userId" value={user.id} />
@@ -139,6 +168,21 @@ export default function AuthenticatedForm({
           )}
         </div>
       )}
-    </form>
+      </form>
+
+      {/* Confirmation Modal */}
+      {selectedDate && (
+        <ConfirmBetModal
+          isOpen={showConfirmModal}
+          name={userName}
+          selectedDate={selectedDate}
+          paymentMethod={paymentMethod}
+          locale={locale}
+          onConfirm={handleConfirm}
+          onCancel={() => setShowConfirmModal(false)}
+          isSubmitting={isSubmitting}
+        />
+      )}
+    </>
   )
 }

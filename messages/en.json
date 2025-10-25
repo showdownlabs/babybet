@@ -51,7 +51,8 @@
     "hoursAgo": "{count}h ago",
     "daysAgo": "{count}d ago",
     "signInToView": "Sign In to See Recent Guesses",
-    "signInDescription": "See who's betting, their payment status, and more! Sign in with Google to unlock the live activity feed and your personal betting history."
+    "signInDescription": "See who's betting, their payment status, and more! Sign in with Google to unlock the live activity feed and your personal betting history.",
+    "signInWithGoogle": "Sign in with Google"
   },
   "home": {
     "hero": "🍼 Baby Bet",
@@ -105,6 +106,19 @@
     "venmoDidntOpen": "If Venmo didn't open,",
     "tapHere": "tap here",
     "rememberCash": "Remember to pay cash in person to finalize your bet!"
+  },
+  "confirmModal": {
+    "title": "Confirm Your Bet",
+    "subtitle": "Please review your bet details before submitting",
+    "name": "Name",
+    "yourGuess": "Your Guess",
+    "paymentMethod": "Payment",
+    "amount": "Amount",
+    "venmoNote": "You'll be redirected to Venmo to complete the $2 payment.",
+    "cashNote": "Remember to pay $2 cash in person. Your bet isn't final until payment is received.",
+    "goBack": "Go Back",
+    "confirmBet": "Confirm Bet",
+    "submitting": "Submitting..."
   },
   "rulesCard": {
     "howItWorks": "📋 How It Works",
