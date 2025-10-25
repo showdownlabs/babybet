@@ -4,9 +4,11 @@
     "backToBetting": "← Volver a las apuestas",
     "readDetailedRules": "Leer reglas detalladas y preguntas frecuentes →",
     "signInWithGoogle": "Iniciar sesión con Google",
+    "signIn": "Iniciar Sesión",
     "signOut": "Cerrar sesión",
     "signedInAs": "Conectado como",
-    "viewProfile": "Ver Mis Apuestas"
+    "viewProfile": "Ver Mis Apuestas",
+    "myGuesses": "Mis Apuestas"
   },
   "profile": {
     "title": "Mi Perfil",

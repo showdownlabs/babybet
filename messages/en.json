@@ -4,9 +4,11 @@
     "backToBetting": "← Back to betting",
     "readDetailedRules": "Read detailed rules & FAQ →",
     "signInWithGoogle": "Sign in with Google",
+    "signIn": "Sign In",
     "signOut": "Sign out",
     "signedInAs": "Signed in as",
-    "viewProfile": "View My Guesses"
+    "viewProfile": "View My Guesses",
+    "myGuesses": "My Guesses"
   },
   "profile": {
     "title": "My Profile",

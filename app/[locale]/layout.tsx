@@ -4,7 +4,7 @@ import { getMessages } from 'next-intl/server'
 import { AuthProvider } from '@/components/AuthProvider'
 import { notFound } from 'next/navigation'
 import { locales } from '@/i18n'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
+import Navbar from '@/components/Navbar'
 
 export default async function LocaleLayout({
   children,
@@ -27,10 +27,8 @@ export default async function LocaleLayout({
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
-            <div className="mx-auto max-w-5xl p-4 pb-12">
-              <div className="flex justify-end mb-4">
-                <LanguageSwitcher currentLocale={locale} />
-              </div>
+            <div className="mx-auto max-w-5xl px-4 py-4 pb-12">
+              <Navbar locale={locale} />
               {children}
             </div>
           </AuthProvider>
