@@ -8,11 +8,13 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params
 }: {
   children: React.ReactNode
   params: { locale: string }
 }) {
+  const locale = params.locale
+  
   // Validate locale
   if (!locales.includes(locale as any)) {
     notFound()
@@ -21,7 +23,7 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>

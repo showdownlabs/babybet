@@ -11,19 +11,23 @@ const intlMiddleware = createIntlMiddleware({
 })
 
 export async function middleware(request: NextRequest) {
-  // First, handle i18n routing
-  const intlResponse = intlMiddleware(request)
+  const { pathname } = request.nextUrl
   
-  // Then handle Supabase auth
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  // Skip i18n for admin, api, and auth routes
+  const isProtectedRoute = pathname.startsWith('/admin') || 
+                           pathname.startsWith('/api') || 
+                           pathname.startsWith('/auth')
+  
+  // Handle Supabase auth for all routes
+  let response = isProtectedRoute 
+    ? NextResponse.next({ request })
+    : intlMiddleware(request)
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    return intlResponse
+    return response
   }
 
   const supabase = createServerClient(
@@ -36,11 +40,11 @@ export async function middleware(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
+          response = NextResponse.next({
             request,
           })
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            response.cookies.set(name, value, options)
           )
         },
       },
@@ -50,12 +54,7 @@ export async function middleware(request: NextRequest) {
   // Refresh session if expired
   await supabase.auth.getUser()
 
-  // Merge cookies from both middlewares
-  intlResponse.cookies.getAll().forEach(cookie => {
-    supabaseResponse.cookies.set(cookie.name, cookie.value)
-  })
-
-  return supabaseResponse
+  return response
 }
 
 export const config = {

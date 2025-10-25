@@ -94,7 +94,7 @@ export default async function AdminPage() {
                     <td className="p-2">{baby.guess_count}</td>
                     <td className="p-2">
                       <Link 
-                        href={`/${baby.url_path}`}
+                        href={`/en/${baby.url_path}`}
                         className="text-blue-600 hover:underline text-sm"
                       >
                         View Page

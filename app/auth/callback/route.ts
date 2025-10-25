@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code)
   }
 
-  // Redirect to home page
-  return NextResponse.redirect(`${origin}/`)
+  // Redirect to home page (default to English)
+  return NextResponse.redirect(`${origin}/en`)
 }
 
