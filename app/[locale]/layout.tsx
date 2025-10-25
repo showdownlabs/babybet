@@ -27,7 +27,7 @@ export default async function LocaleLayout({
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
-            <div className="mx-auto max-w-2xl p-4 pb-12">
+            <div className="mx-auto max-w-5xl p-4 pb-12">
               <div className="flex justify-end mb-4">
                 <LanguageSwitcher currentLocale={locale} />
               </div>
