@@ -19,6 +19,7 @@ export default function GuestForm({
   windowEnd,
   guessCounts,
   guessProfiles,
+  guessesByDate,
   dueDate,
   locale,
 }: {
@@ -27,6 +28,7 @@ export default function GuestForm({
   windowEnd: Date
   guessCounts: Record<string, number>
   guessProfiles: Record<string, string[]>
+  guessesByDate: Record<string, any[]>
   dueDate: Date
   locale: string
 }) {
@@ -97,8 +99,10 @@ export default function GuestForm({
         dueDate={dueDate}
         guessCounts={guessCounts}
         guessProfiles={guessProfiles}
+        guessesByDate={guessesByDate}
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
+        locale={locale}
       />
       
       {/* Hidden input for selected date */}

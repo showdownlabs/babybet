@@ -27,6 +27,30 @@
     "paid": "Pagado",
     "pending": "Pago Pendiente"
   },
+  "dateDetails": {
+    "guess": "apuesta",
+    "guesses": "apuestas",
+    "paid": "Pagado",
+    "pending": "Pendiente",
+    "close": "Cerrar",
+    "noGuesses": "Aún no hay apuestas para esta fecha",
+    "justNow": "justo ahora",
+    "minutesAgo": "hace {count}m",
+    "hoursAgo": "hace {count}h",
+    "daysAgo": "hace {count}d"
+  },
+  "recentGuesses": {
+    "title": "Apuestas Recientes",
+    "noGuessesYet": "Aún no hay apuestas. ¡Sé el primero!",
+    "guest": "Invitado",
+    "guessed": "apostó",
+    "paid": "Pagado",
+    "pending": "Pendiente",
+    "justNow": "justo ahora",
+    "minutesAgo": "hace {count}m",
+    "hoursAgo": "hace {count}h",
+    "daysAgo": "hace {count}d"
+  },
   "home": {
     "hero": "🍼 Baby Bet",
     "tagline": "¡Adivina la fecha de llegada. Gana el premio!",

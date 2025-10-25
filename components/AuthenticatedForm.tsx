@@ -20,6 +20,7 @@ export default function AuthenticatedForm({
   windowEnd,
   guessCounts,
   guessProfiles,
+  guessesByDate,
   dueDate,
   user,
   locale,
@@ -29,6 +30,7 @@ export default function AuthenticatedForm({
   windowEnd: Date
   guessCounts: Record<string, number>
   guessProfiles: Record<string, string[]>
+  guessesByDate: Record<string, any[]>
   dueDate: Date
   user: User
   locale: string
@@ -102,8 +104,10 @@ export default function AuthenticatedForm({
         dueDate={dueDate}
         guessCounts={guessCounts}
         guessProfiles={guessProfiles}
+        guessesByDate={guessesByDate}
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
+        locale={locale}
       />
       
       {/* Hidden input for selected date */}

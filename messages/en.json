@@ -27,6 +27,30 @@
     "paid": "Paid",
     "pending": "Pending Payment"
   },
+  "dateDetails": {
+    "guess": "guess",
+    "guesses": "guesses",
+    "paid": "Paid",
+    "pending": "Pending",
+    "close": "Close",
+    "noGuesses": "No guesses for this date yet",
+    "justNow": "just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago"
+  },
+  "recentGuesses": {
+    "title": "Recent Guesses",
+    "noGuessesYet": "No guesses yet. Be the first!",
+    "guest": "Guest",
+    "guessed": "guessed",
+    "paid": "Paid",
+    "pending": "Pending",
+    "justNow": "just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago"
+  },
   "home": {
     "hero": "🍼 Baby Bet",
     "tagline": "Guess the arrival date. Win the prize!",

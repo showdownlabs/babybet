@@ -3,6 +3,7 @@ import { buildVenmoNote, venmoLinks } from '@/lib/venmo'
 import { clampName, genCode, formatISODate } from '@/lib/utils'
 import BetFormContainer from '@/components/BetFormContainer'
 import RulesCard from '@/components/RulesCard'
+import RecentGuesses from '@/components/RecentGuesses'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
@@ -53,11 +54,12 @@ export default async function BabyPage({
 
   const babyData = baby as Baby
   
-  // Fetch ALL guesses for this baby
+  // Fetch ALL guesses for this baby with detailed information
   const { data: guesses, error: guessesError } = await sb
     .from('guesses')
-    .select('guess_date, user_id')
+    .select('id, name, guess_date, paid, created_at, payment_provider, country, user_id')
     .eq('baby_id', babyData.id)
+    .order('created_at', { ascending: false })
   
   // Fetch profiles separately for users with guesses
   const userIds = [...new Set(guesses?.map(g => g.user_id).filter(Boolean) || [])]
@@ -67,9 +69,10 @@ export default async function BabyPage({
   
   const profileMap = new Map(profiles?.map(p => [p.id, p.avatar_url]) || [])
   
-  // Count guesses per date and group profiles
+  // Count guesses per date, group profiles, and organize by date
   const guessCounts: Record<string, number> = {}
   const guessProfiles: Record<string, string[]> = {}
+  const guessesByDate: Record<string, any[]> = {}
   
   guesses?.forEach((g: any) => {
     const date = g.guess_date
@@ -88,7 +91,27 @@ export default async function BabyPage({
         }
       }
     }
+    
+    // Group guesses by date for detailed view and attach profile
+    if (!guessesByDate[date]) {
+      guessesByDate[date] = []
+    }
+    const guessWithProfile = {
+      ...g,
+      profiles: g.user_id && profileMap.has(g.user_id) 
+        ? { avatar_url: profileMap.get(g.user_id) }
+        : null
+    }
+    guessesByDate[date].push(guessWithProfile)
   })
+  
+  // Get recent guesses (last 15) with proper type casting and attach profiles
+  const recentGuesses = (guesses?.slice(0, 15).map(g => ({
+    ...g,
+    profiles: g.user_id && profileMap.has(g.user_id) 
+      ? { avatar_url: profileMap.get(g.user_id) }
+      : null
+  })) || []) as any[]
 
   // Convert date strings to Date objects
   const dueDate = new Date(babyData.due_date)
@@ -115,9 +138,13 @@ export default async function BabyPage({
         windowEnd={windowEnd}
         guessCounts={guessCounts}
         guessProfiles={guessProfiles}
+        guessesByDate={guessesByDate}
         dueDate={dueDate}
         locale={params.locale}
       />
+
+      {/* Recent Guesses Feed */}
+      <RecentGuesses guesses={recentGuesses} locale={params.locale} />
 
       <RulesCard locale={params.locale} />
       

@@ -20,6 +20,7 @@ type Props = {
   windowEnd: Date
   guessCounts: Record<string, number>
   guessProfiles: Record<string, string[]>
+  guessesByDate: Record<string, any[]>
   dueDate: Date
   locale: string
 }
