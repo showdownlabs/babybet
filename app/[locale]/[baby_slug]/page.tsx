@@ -1,4 +1,5 @@
 import { supabaseServer } from '@/lib/supabaseServer'
+import { createClient as createAuthClient } from '@/lib/supabaseServerAuth'
 import { buildVenmoNote, venmoLinks } from '@/lib/venmo'
 import { clampName, genCode, formatISODate } from '@/lib/utils'
 import BetFormContainer from '@/components/BetFormContainer'
@@ -38,11 +39,14 @@ export default async function BabyPage({
 }) {
   const t = await getTranslations('babyPage')
   const tCommon = await getTranslations('common')
-  const sb = supabaseServer()
   
-  // Check if user is authenticated
-  const { data: { user } } = await sb.auth.getUser()
+  // Check if user is authenticated using cookie-based auth client
+  const authClient = createAuthClient()
+  const { data: { user } } = await authClient.auth.getUser()
   const isAuthenticated = !!user
+  
+  // Use service role client for data fetching
+  const sb = supabaseServer()
   
   // Fetch the baby by url_path
   const { data: baby, error: babyError } = await sb
