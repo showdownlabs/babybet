@@ -5,7 +5,25 @@
     "readDetailedRules": "Read detailed rules & FAQ →",
     "signInWithGoogle": "Sign in with Google",
     "signOut": "Sign out",
-    "signedInAs": "Signed in as"
+    "signedInAs": "Signed in as",
+    "viewProfile": "View My Guesses"
+  },
+  "profile": {
+    "title": "My Profile",
+    "totalGuesses": "Total Guesses",
+    "paidGuesses": "Paid",
+    "unpaidGuesses": "Pending",
+    "totalSpent": "Total Spent",
+    "yourGuesses": "Your Guesses",
+    "noGuesses": "You haven't placed any guesses yet",
+    "placeFirstGuess": "Place Your First Guess",
+    "guessDate": "Your Guess",
+    "dueDate": "Due Date",
+    "code": "Code",
+    "payment": "Payment",
+    "country": "Country",
+    "paid": "Paid",
+    "pending": "Pending Payment"
   },
   "home": {
     "hero": "🍼 Baby Bet",

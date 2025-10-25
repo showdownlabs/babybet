@@ -5,7 +5,25 @@
     "readDetailedRules": "Leer reglas detalladas y preguntas frecuentes →",
     "signInWithGoogle": "Iniciar sesión con Google",
     "signOut": "Cerrar sesión",
-    "signedInAs": "Conectado como"
+    "signedInAs": "Conectado como",
+    "viewProfile": "Ver Mis Apuestas"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "totalGuesses": "Total de Apuestas",
+    "paidGuesses": "Pagadas",
+    "unpaidGuesses": "Pendientes",
+    "totalSpent": "Total Gastado",
+    "yourGuesses": "Tus Apuestas",
+    "noGuesses": "Aún no has realizado ninguna apuesta",
+    "placeFirstGuess": "Hacer Tu Primera Apuesta",
+    "guessDate": "Tu Predicción",
+    "dueDate": "Fecha Prevista",
+    "code": "Código",
+    "payment": "Pago",
+    "country": "País",
+    "paid": "Pagado",
+    "pending": "Pago Pendiente"
   },
   "home": {
     "hero": "🍼 Baby Bet",

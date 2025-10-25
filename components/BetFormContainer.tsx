@@ -4,6 +4,7 @@ import { useAuth } from '@/components/AuthProvider'
 import GuestForm from '@/components/GuestForm'
 import AuthenticatedForm from '@/components/AuthenticatedForm'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 
 type ActionState = {
   ok: boolean
@@ -48,25 +49,36 @@ export default function BetFormContainer(props: Props) {
       )}
 
       {/* Auth Status - Subtle Footer */}
-      <div className="text-center pt-2">
+      <div className="text-center pt-2 space-y-2">
         {user ? (
-          <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-            {user.user_metadata?.avatar_url && (
-              <img 
-                src={user.user_metadata.avatar_url} 
-                alt={user.user_metadata?.full_name || user.email || 'User'}
-                className="w-5 h-5 rounded-full"
-              />
-            )}
-            <span>{tCommon('signedInAs')} {user.user_metadata?.full_name || user.email}</span>
-            <span>•</span>
-            <button
-              onClick={signOut}
-              className="text-blue-600 hover:underline"
+          <>
+            <Link
+              href={`/${props.locale}/profile`}
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              {tCommon('signOut')}
-            </button>
-          </div>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              {tCommon('viewProfile')}
+            </Link>
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+              {user.user_metadata?.avatar_url && (
+                <img 
+                  src={user.user_metadata.avatar_url} 
+                  alt={user.user_metadata?.full_name || user.email || 'User'}
+                  className="w-5 h-5 rounded-full"
+                />
+              )}
+              <span>{tCommon('signedInAs')} {user.user_metadata?.full_name || user.email}</span>
+              <span>•</span>
+              <button
+                onClick={signOut}
+                className="text-blue-600 hover:underline"
+              >
+                {tCommon('signOut')}
+              </button>
+            </div>
+          </>
         ) : (
           <button
             onClick={signInWithGoogle}
