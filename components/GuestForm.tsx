@@ -1,8 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
-import type { ActionState } from '@/app/page'
 import DateCarousel from './DateCarousel'
+
+type ActionState = {
+  ok: boolean
+  error?: string
+  venmoDeep?: string
+  venmoWeb?: string
+  code?: string
+  paymentMethod?: 'venmo' | 'cash'
+}
 
 export default function GuestForm({
   createGuess,

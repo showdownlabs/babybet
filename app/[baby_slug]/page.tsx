@@ -46,11 +46,19 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
 
   const babyData = baby as Baby
   
-  // Fetch ALL guesses for this baby with profile data
-  const { data: guesses } = await sb
+  // Fetch ALL guesses for this baby
+  const { data: guesses, error: guessesError } = await sb
     .from('guesses')
-    .select('guess_date, user_id, profiles(avatar_url)')
+    .select('guess_date, user_id')
     .eq('baby_id', babyData.id)
+  
+  // Fetch profiles separately for users with guesses
+  const userIds = [...new Set(guesses?.map(g => g.user_id).filter(Boolean) || [])]
+  const { data: profiles } = userIds.length > 0 
+    ? await sb.from('profiles').select('id, avatar_url').in('id', userIds)
+    : { data: [] }
+  
+  const profileMap = new Map(profiles?.map(p => [p.id, p.avatar_url]) || [])
   
   // Count guesses per date and group profiles
   const guessCounts: Record<string, number> = {}
@@ -61,14 +69,16 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
     guessCounts[date] = (guessCounts[date] || 0) + 1
     
     // Add avatar URL if user is authenticated and has one
-    const profile = g.profiles
-    if (g.user_id && profile?.avatar_url) {
-      if (!guessProfiles[date]) {
-        guessProfiles[date] = []
-      }
-      // Only add unique avatars (in case user has multiple bets on same day)
-      if (!guessProfiles[date].includes(profile.avatar_url)) {
-        guessProfiles[date].push(profile.avatar_url)
+    if (g.user_id) {
+      const avatarUrl = profileMap.get(g.user_id)
+      if (avatarUrl) {
+        if (!guessProfiles[date]) {
+          guessProfiles[date] = []
+        }
+        // Only add unique avatars (in case user has multiple bets on same day)
+        if (!guessProfiles[date].includes(avatarUrl)) {
+          guessProfiles[date].push(avatarUrl)
+        }
       }
     }
   })
@@ -92,14 +102,6 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
         </p>
       </div>
 
-      <RulesCard />
-
-      <div className="text-center">
-        <Link href="/rules" className="text-sm text-blue-600 hover:underline">
-          Read detailed rules & FAQ →
-        </Link>
-      </div>
-
       <BetFormContainer 
         createGuess={createGuess.bind(null, babyData.id)} 
         windowStart={windowStart} 
@@ -108,6 +110,8 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
         guessProfiles={guessProfiles}
         dueDate={dueDate}
       />
+
+      <RulesCard />
       
       <div className="text-xs text-gray-500 space-y-1">
         <p>
@@ -116,6 +120,12 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
         <p>
           📝 Want to bet on multiple days? Submit the form once per date!
         </p>
+      </div>
+
+      <div className="text-center pt-2">
+        <Link href="/rules" className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
+          Read detailed rules & FAQ →
+        </Link>
       </div>
     </main>
   )
