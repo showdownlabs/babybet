@@ -44,7 +44,11 @@ export default async function ProfilePage({ params: { locale } }: { params: { lo
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
-  const userGuesses = guesses as Guess[] || []
+  // Transform the data to match our Guess type (babies comes as array from Supabase)
+  const userGuesses: Guess[] = (guesses || []).map((g: any) => ({
+    ...g,
+    babies: Array.isArray(g.babies) && g.babies.length > 0 ? g.babies[0] : g.babies
+  }))
   const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
 
   return (
