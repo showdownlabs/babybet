@@ -49,7 +49,9 @@
     "justNow": "justo ahora",
     "minutesAgo": "hace {count}m",
     "hoursAgo": "hace {count}h",
-    "daysAgo": "hace {count}d"
+    "daysAgo": "hace {count}d",
+    "signInToView": "Inicia Sesión para Ver Apuestas Recientes",
+    "signInDescription": "¡Ve quién está apostando, su estado de pago y más! Inicia sesión con Google para desbloquear el feed de actividad en vivo y tu historial personal de apuestas."
   },
   "home": {
     "hero": "🍼 Baby Bet",

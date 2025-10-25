@@ -24,6 +24,7 @@ type DateCarouselProps = {
   selectedDate: string | null
   onDateSelect: (date: string) => void
   locale: string
+  isAuthenticated: boolean
 }
 
 export default function DateCarousel({
@@ -36,6 +37,7 @@ export default function DateCarousel({
   selectedDate,
   onDateSelect,
   locale,
+  isAuthenticated,
 }: DateCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -196,8 +198,8 @@ export default function DateCarousel({
                   )}
                 </button>
                 
-                {/* Info button to expand details */}
-                {count > 0 && (
+                {/* Info button to expand details - only for authenticated users */}
+                {count > 0 && isAuthenticated && (
                   <button
                     type="button"
                     onClick={(e) => {
@@ -239,7 +241,8 @@ export default function DateCarousel({
       </div>
 
       <p className="text-xs text-gray-500 mt-2">
-        Scroll to see all dates • Blue border = due date • Click ⓘ to see who guessed each date
+        Scroll to see all dates • Blue border = due date
+        {isAuthenticated && ' • Click ⓘ to see who guessed each date'}
       </p>
 
       {/* Expanded date details */}

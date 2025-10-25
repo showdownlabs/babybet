@@ -40,6 +40,10 @@ export default async function BabyPage({
   const tCommon = await getTranslations('common')
   const sb = supabaseServer()
   
+  // Check if user is authenticated
+  const { data: { user } } = await sb.auth.getUser()
+  const isAuthenticated = !!user
+  
   // Fetch the baby by url_path
   const { data: baby, error: babyError } = await sb
     .from('babies')
@@ -144,7 +148,7 @@ export default async function BabyPage({
       />
 
       {/* Recent Guesses Feed */}
-      <RecentGuesses guesses={recentGuesses} locale={params.locale} />
+      <RecentGuesses guesses={recentGuesses} locale={params.locale} isAuthenticated={isAuthenticated} />
 
       <RulesCard locale={params.locale} />
       

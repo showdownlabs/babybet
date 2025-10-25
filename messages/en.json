@@ -49,7 +49,9 @@
     "justNow": "just now",
     "minutesAgo": "{count}m ago",
     "hoursAgo": "{count}h ago",
-    "daysAgo": "{count}d ago"
+    "daysAgo": "{count}d ago",
+    "signInToView": "Sign In to See Recent Guesses",
+    "signInDescription": "See who's betting, their payment status, and more! Sign in with Google to unlock the live activity feed and your personal betting history."
   },
   "home": {
     "hero": "🍼 Baby Bet",

@@ -103,6 +103,7 @@ export default function GuestForm({
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
         locale={locale}
+        isAuthenticated={false}
       />
       
       {/* Hidden input for selected date */}

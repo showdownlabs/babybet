@@ -108,6 +108,7 @@ export default function AuthenticatedForm({
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
         locale={locale}
+        isAuthenticated={true}
       />
       
       {/* Hidden input for selected date */}
