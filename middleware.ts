@@ -1,7 +1,20 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import createIntlMiddleware from 'next-intl/middleware'
+import { locales } from './i18n'
+
+const intlMiddleware = createIntlMiddleware({
+  locales,
+  defaultLocale: 'en',
+  localeDetection: true,
+  localePrefix: 'always',
+})
 
 export async function middleware(request: NextRequest) {
+  // First, handle i18n routing
+  const intlResponse = intlMiddleware(request)
+  
+  // Then handle Supabase auth
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -10,7 +23,7 @@ export async function middleware(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    return supabaseResponse
+    return intlResponse
   }
 
   const supabase = createServerClient(
@@ -36,6 +49,11 @@ export async function middleware(request: NextRequest) {
 
   // Refresh session if expired
   await supabase.auth.getUser()
+
+  // Merge cookies from both middlewares
+  intlResponse.cookies.getAll().forEach(cookie => {
+    supabaseResponse.cookies.set(cookie.name, cookie.value)
+  })
 
   return supabaseResponse
 }

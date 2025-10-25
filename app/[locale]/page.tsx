@@ -1,6 +1,8 @@
 import { supabaseServer } from '@/lib/supabaseServer'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,7 +15,8 @@ type Baby = {
   due_date: string
 }
 
-export default async function Page() {
+export default async function Page({ params: { locale } }: { params: { locale: string } }) {
+  const t = await getTranslations('home')
   const sb = supabaseServer()
   
   // Fetch all active babies
@@ -27,7 +30,7 @@ export default async function Page() {
 
   // If there's only one active baby, redirect to it
   if (activeBabies.length === 1) {
-    redirect(`/${activeBabies[0].url_path}`)
+    redirect(`/${locale}/${activeBabies[0].url_path}`)
   }
 
   // If there are no active babies, show a message
@@ -35,9 +38,9 @@ export default async function Page() {
     return (
       <main className="space-y-6 text-center">
         <div>
-          <h1 className="text-2xl font-bold">No Active Baby Bets</h1>
+          <h1 className="text-2xl font-bold">{t('noActiveBets')}</h1>
           <p className="text-sm text-gray-600 mt-2">
-            There are currently no active baby bets. Check back soon!
+            {t('noActiveBetsDescription')}
           </p>
         </div>
       </main>
@@ -48,9 +51,9 @@ export default async function Page() {
   return (
     <main className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Choose a Baby Bet</h1>
+        <h1 className="text-2xl font-bold">{t('chooseBabyBet')}</h1>
         <p className="text-sm text-gray-600 mt-1">
-          Select which baby you'd like to place a bet on
+          {t('selectBaby')}
         </p>
       </div>
 
@@ -63,15 +66,15 @@ export default async function Page() {
           return (
             <Link
               key={baby.id}
-              href={`/${baby.url_path}`}
+              href={`/${locale}/${baby.url_path}`}
               className="block p-6 border rounded-lg hover:shadow-md transition-shadow"
             >
               <h2 className="text-xl font-semibold mb-2">{babyName}</h2>
               <p className="text-sm text-gray-600">
-                Due date: {new Date(baby.due_date).toLocaleDateString()}
+                {t('dueDate')}: {new Date(baby.due_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US')}
               </p>
               <p className="text-sm text-blue-600 mt-2">
-                Click to place your bet →
+                {t('clickToPlaceBet')}
               </p>
             </Link>
           )

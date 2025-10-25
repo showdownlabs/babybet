@@ -1,0 +1,104 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "backToBetting": "← Back to betting",
+    "readDetailedRules": "Read detailed rules & FAQ →",
+    "signInWithGoogle": "Sign in with Google",
+    "signOut": "Sign out",
+    "signedInAs": "Signed in as"
+  },
+  "home": {
+    "noActiveBets": "No Active Baby Bets",
+    "noActiveBetsDescription": "There are currently no active baby bets. Check back soon!",
+    "chooseBabyBet": "Choose a Baby Bet",
+    "selectBaby": "Select which baby you'd like to place a bet on",
+    "dueDate": "Due date",
+    "clickToPlaceBet": "Click to place your bet →"
+  },
+  "babyPage": {
+    "whenWillArrive": "When will {babyName} arrive?",
+    "dueDate": "Due date",
+    "venmoOrCash": "💳 Choose Venmo or Cash payment • Venmo redirects automatically • Cash requires in-person confirmation",
+    "multipleDays": "📝 Want to bet on multiple days? Submit the form once per date!"
+  },
+  "form": {
+    "guestBet": "Guest Bet",
+    "guestBetDescription": "Place a bet without signing in",
+    "authenticatedBet": "Authenticated Bet",
+    "bettingAs": "Betting as",
+    "yourName": "Your name",
+    "enterYourName": "Enter your name",
+    "pickADate": "Pick a date",
+    "paymentMethod": "Payment method",
+    "venmo": "💳 Venmo",
+    "cash": "💵 Cash",
+    "submitBetVenmo": "Place bet & Pay with Venmo",
+    "submitBetCash": "Place bet (Pay cash in person)",
+    "betPlaced": "✓ Bet placed! Your code:",
+    "venmoDidntOpen": "If Venmo didn't open,",
+    "tapHere": "tap here",
+    "rememberCash": "Remember to pay cash in person to finalize your bet!"
+  },
+  "rulesCard": {
+    "howItWorks": "📋 How It Works",
+    "step1": "Pick your date(s)",
+    "step1Description": "Choose any date(s) within the betting window",
+    "step2": "$2 per day",
+    "step2Description": "You can bet on multiple days! Each date costs $2",
+    "step3": "Pay via Venmo or Cash",
+    "step3Description": "Choose your payment method. Venmo redirects automatically, Cash is paid in person",
+    "step4": "Payment = Final",
+    "step4Description": "Your bet isn't official until payment is received",
+    "tip": "💡 Tip: Want more chances to win? Submit multiple dates! Each guess gets you in the running."
+  },
+  "rulesPage": {
+    "gameRules": "Game Rules",
+    "subtitle": "Everything you need to know about the baby arrival bet!",
+    "quickSummary": "🎯 Quick Summary",
+    "pricePerDate": "$2 per date — Bet on as many days as you want!",
+    "dueDate": "Due date: {date}",
+    "bettingWindow": "Betting window: {start} to {end}",
+    "paymentMethods": "Payment via Venmo or Cash — Bets aren't final until paid",
+    
+    "howToPlay": "📅 How to Play",
+    "step1Title": "1. Choose Your Date(s)",
+    "step1Description": "Pick any date between {start} and {end}. Want better odds? Bet on multiple dates!",
+    "step2Title": "2. Submit Your Guess",
+    "step2Description": "Enter your name and select your date. You'll receive a unique verification code (e.g., \"JS-7K3M\") that you'll use to track your bet.",
+    "step3Title": "3. Choose Payment Method",
+    "step3VenmoDescription": "Venmo: After submitting, you'll be redirected to Venmo. The payment note will include your name, date, and verification code. Complete the ${amount} payment instantly.",
+    "step3CashDescription": "Cash: After submitting, save your verification code. Pay ${amount} in cash in person and provide your code to confirm your bet.",
+    "step4Title": "4. Wait for Baby!",
+    "step4Description": "Once payment is confirmed, your bet is locked in. The person who guesses closest to the actual arrival date wins!",
+    
+    "pricing": "💰 Pricing",
+    "pricePerDateDetail": "${amount} per date",
+    "multipleEntriesDescription": "Bet on multiple days? Each date is a separate ${amount} entry. Just submit the form once for each date you want to bet on!",
+    
+    "paymentConfirmation": "✅ Payment & Confirmation",
+    "importantWarning": "⚠️ Important",
+    "notFinalWarning": "Your bet is NOT final until payment is received and confirmed. Make sure to complete payment right after submitting your guess!",
+    "venmoPaymentTitle": "💳 Venmo Payment",
+    "venmoPaymentDescription": "After you submit your guess, you'll be redirected to Venmo with all the payment details pre-filled. Just tap \"Pay\" to complete the transaction.",
+    "cantFindVenmo": "Can't find Venmo? Make sure the app is installed on your phone. If you don't have Venmo, you'll be redirected to the website instead.",
+    "cashPaymentTitle": "💵 Cash Payment",
+    "cashPaymentDescription": "After you submit your guess, save your verification code. Bring ${amount} cash and your code to pay in person. Your bet will be marked as paid once received.",
+    
+    "winning": "🏆 Winning",
+    "winningDescription": "The winner is whoever guesses closest to the actual arrival date. If multiple people guess the same winning date, the prize will be split.",
+    "winnerAnnouncement": "The winner will be announced after baby arrives!",
+    
+    "faq": "❓ FAQ",
+    "faqQ1": "Can I bet on the same date twice?",
+    "faqA1": "Yes! Each bet is separate, so you can increase your chances on a specific date.",
+    "faqQ2": "Can I change my guess after paying?",
+    "faqA2": "No, all bets are final once payment is confirmed. Choose wisely!",
+    "faqQ3": "What if I forget to pay?",
+    "faqA3": "Your guess won't be counted until payment is received. You can submit a new guess and complete the payment at any time before the deadline.",
+    "faqQ4": "How do I know if my payment went through?",
+    "faqA4": "Check your Venmo transaction history. Your verification code will be in the payment note.",
+    
+    "readyToPlay": "Ready to Play? Place Your Bet →"
+  }
+}
+

@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
-export default function RulesCard() {
+export default function RulesCard({ locale }: { locale?: string }) {
   const [isOpen, setIsOpen] = useState(false)
+  const t = useTranslations('rulesCard')
 
   return (
     <div className="rounded-lg border border-gray-200 bg-white">
@@ -12,7 +14,7 @@ export default function RulesCard() {
         className="w-full flex items-center justify-between p-3 text-left hover:bg-gray-50 transition-colors"
       >
         <span className="text-sm font-medium text-gray-700">
-          📋 How It Works
+          {t('howItWorks')}
         </span>
         <svg
           className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -29,29 +31,28 @@ export default function RulesCard() {
           <div className="space-y-2 text-sm text-gray-700 pt-3">
             <div className="flex items-start gap-2">
               <span className="font-bold min-w-[20px]">1.</span>
-              <p><strong>Pick your date(s)</strong> — Choose any date(s) within the betting window</p>
+              <p><strong>{t('step1')}</strong> — {t('step1Description')}</p>
             </div>
             
             <div className="flex items-start gap-2">
               <span className="font-bold min-w-[20px]">2.</span>
-              <p><strong>$2 per day</strong> — You can bet on multiple days! Each date costs $2</p>
+              <p><strong>{t('step2')}</strong> — {t('step2Description')}</p>
             </div>
             
             <div className="flex items-start gap-2">
               <span className="font-bold min-w-[20px]">3.</span>
-              <p><strong>Pay via Venmo or Cash</strong> — Choose your payment method. Venmo redirects automatically, Cash is paid in person</p>
+              <p><strong>{t('step3')}</strong> — {t('step3Description')}</p>
             </div>
             
             <div className="flex items-start gap-2">
               <span className="font-bold min-w-[20px]">4.</span>
-              <p><strong>Payment = Final</strong> — Your bet isn't official until payment is received</p>
+              <p><strong>{t('step4')}</strong> — {t('step4Description')}</p>
             </div>
           </div>
           
           <div className="pt-2 border-t border-gray-200">
             <p className="text-xs text-gray-600">
-              💡 <strong>Tip:</strong> Want more chances to win? Submit multiple dates! 
-              Each guess gets you in the running.
+              {t('tip')}
             </p>
           </div>
         </div>

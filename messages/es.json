@@ -1,0 +1,104 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "backToBetting": "← Volver a las apuestas",
+    "readDetailedRules": "Leer reglas detalladas y preguntas frecuentes →",
+    "signInWithGoogle": "Iniciar sesión con Google",
+    "signOut": "Cerrar sesión",
+    "signedInAs": "Conectado como"
+  },
+  "home": {
+    "noActiveBets": "No hay apuestas activas",
+    "noActiveBetsDescription": "Actualmente no hay apuestas activas sobre bebés. ¡Vuelve pronto!",
+    "chooseBabyBet": "Elige una apuesta de bebé",
+    "selectBaby": "Selecciona sobre qué bebé te gustaría apostar",
+    "dueDate": "Fecha prevista",
+    "clickToPlaceBet": "Haz clic para hacer tu apuesta →"
+  },
+  "babyPage": {
+    "whenWillArrive": "¿Cuándo llegará {babyName}?",
+    "dueDate": "Fecha prevista",
+    "venmoOrCash": "💳 Elige pago con Venmo o Efectivo • Venmo redirige automáticamente • Efectivo requiere confirmación en persona",
+    "multipleDays": "📝 ¿Quieres apostar en varios días? ¡Envía el formulario una vez por cada fecha!"
+  },
+  "form": {
+    "guestBet": "Apuesta de invitado",
+    "guestBetDescription": "Haz una apuesta sin iniciar sesión",
+    "authenticatedBet": "Apuesta autenticada",
+    "bettingAs": "Apostando como",
+    "yourName": "Tu nombre",
+    "enterYourName": "Ingresa tu nombre",
+    "pickADate": "Elige una fecha",
+    "paymentMethod": "Método de pago",
+    "venmo": "💳 Venmo",
+    "cash": "💵 Efectivo",
+    "submitBetVenmo": "Hacer apuesta y pagar con Venmo",
+    "submitBetCash": "Hacer apuesta (Pagar en efectivo en persona)",
+    "betPlaced": "✓ ¡Apuesta realizada! Tu código:",
+    "venmoDidntOpen": "Si Venmo no se abrió,",
+    "tapHere": "toca aquí",
+    "rememberCash": "¡Recuerda pagar en efectivo en persona para finalizar tu apuesta!"
+  },
+  "rulesCard": {
+    "howItWorks": "📋 Cómo funciona",
+    "step1": "Elige tu(s) fecha(s)",
+    "step1Description": "Elige cualquier fecha dentro del período de apuestas",
+    "step2": "$2 por día",
+    "step2Description": "¡Puedes apostar en varios días! Cada fecha cuesta $2",
+    "step3": "Paga con Venmo o Efectivo",
+    "step3Description": "Elige tu método de pago. Venmo redirige automáticamente, Efectivo se paga en persona",
+    "step4": "Pago = Final",
+    "step4Description": "Tu apuesta no es oficial hasta que se reciba el pago",
+    "tip": "💡 Consejo: ¿Quieres más oportunidades de ganar? ¡Envía varias fechas! Cada predicción te da una oportunidad de ganar."
+  },
+  "rulesPage": {
+    "gameRules": "Reglas del juego",
+    "subtitle": "¡Todo lo que necesitas saber sobre la apuesta de llegada del bebé!",
+    "quickSummary": "🎯 Resumen rápido",
+    "pricePerDate": "$2 por fecha — ¡Apuesta en tantos días como quieras!",
+    "dueDate": "Fecha prevista: {date}",
+    "bettingWindow": "Período de apuestas: {start} a {end}",
+    "paymentMethods": "Pago vía Venmo o Efectivo — Las apuestas no son finales hasta que se paguen",
+    
+    "howToPlay": "📅 Cómo jugar",
+    "step1Title": "1. Elige tu(s) fecha(s)",
+    "step1Description": "Elige cualquier fecha entre {start} y {end}. ¿Quieres mejores probabilidades? ¡Apuesta en varias fechas!",
+    "step2Title": "2. Envía tu predicción",
+    "step2Description": "Ingresa tu nombre y selecciona tu fecha. Recibirás un código de verificación único (ej., \"JS-7K3M\") que usarás para rastrear tu apuesta.",
+    "step3Title": "3. Elige método de pago",
+    "step3VenmoDescription": "Venmo: Después de enviar, serás redirigido a Venmo. La nota de pago incluirá tu nombre, fecha y código de verificación. Completa el pago de ${amount} al instante.",
+    "step3CashDescription": "Efectivo: Después de enviar, guarda tu código de verificación. Paga ${amount} en efectivo en persona y proporciona tu código para confirmar tu apuesta.",
+    "step4Title": "4. ¡Espera al bebé!",
+    "step4Description": "Una vez que se confirme el pago, tu apuesta quedará registrada. ¡La persona que adivine más cerca de la fecha real de llegada gana!",
+    
+    "pricing": "💰 Precio",
+    "pricePerDateDetail": "${amount} por fecha",
+    "multipleEntriesDescription": "¿Apuestas en varios días? Cada fecha es una entrada separada de ${amount}. ¡Solo envía el formulario una vez por cada fecha en la que quieras apostar!",
+    
+    "paymentConfirmation": "✅ Pago y confirmación",
+    "importantWarning": "⚠️ Importante",
+    "notFinalWarning": "Tu apuesta NO es final hasta que se reciba y confirme el pago. ¡Asegúrate de completar el pago justo después de enviar tu predicción!",
+    "venmoPaymentTitle": "💳 Pago con Venmo",
+    "venmoPaymentDescription": "Después de enviar tu predicción, serás redirigido a Venmo con todos los detalles de pago prellenados. Solo toca \"Pagar\" para completar la transacción.",
+    "cantFindVenmo": "¿No encuentras Venmo? Asegúrate de que la aplicación esté instalada en tu teléfono. Si no tienes Venmo, serás redirigido al sitio web en su lugar.",
+    "cashPaymentTitle": "💵 Pago en Efectivo",
+    "cashPaymentDescription": "Después de enviar tu predicción, guarda tu código de verificación. Trae ${amount} en efectivo y tu código para pagar en persona. Tu apuesta se marcará como pagada una vez recibida.",
+    
+    "winning": "🏆 Ganar",
+    "winningDescription": "El ganador es quien adivine más cerca de la fecha real de llegada. Si varias personas adivinan la misma fecha ganadora, el premio se dividirá.",
+    "winnerAnnouncement": "¡El ganador se anunciará después de que llegue el bebé!",
+    
+    "faq": "❓ Preguntas frecuentes",
+    "faqQ1": "¿Puedo apostar en la misma fecha dos veces?",
+    "faqA1": "¡Sí! Cada apuesta es separada, así que puedes aumentar tus posibilidades en una fecha específica.",
+    "faqQ2": "¿Puedo cambiar mi predicción después de pagar?",
+    "faqA2": "No, todas las apuestas son finales una vez que se confirma el pago. ¡Elige sabiamente!",
+    "faqQ3": "¿Qué pasa si olvido pagar?",
+    "faqA3": "Tu predicción no se contará hasta que se reciba el pago. Puedes enviar una nueva predicción y completar el pago en cualquier momento antes de la fecha límite.",
+    "faqQ4": "¿Cómo sé si mi pago se procesó?",
+    "faqA4": "Revisa tu historial de transacciones de Venmo. Tu código de verificación estará en la nota de pago.",
+    
+    "readyToPlay": "¿Listo para jugar? Haz tu apuesta →"
+  }
+}
+

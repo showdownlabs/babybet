@@ -5,7 +5,7 @@ import BetFormContainer from '@/components/BetFormContainer'
 import RulesCard from '@/components/RulesCard'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { config } from '@/lib/config'
+import { getTranslations } from 'next-intl/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,7 +29,13 @@ type Baby = {
   window_end: string
 }
 
-export default async function BabyPage({ params }: { params: { baby_slug: string } }) {
+export default async function BabyPage({ 
+  params 
+}: { 
+  params: { baby_slug: string; locale: string } 
+}) {
+  const t = await getTranslations('babyPage')
+  const tCommon = await getTranslations('common')
   const sb = supabaseServer()
   
   // Fetch the baby by url_path
@@ -96,9 +102,9 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
   return (
     <main className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">When will {babyName} arrive?</h1>
+        <h1 className="text-2xl font-bold">{t('whenWillArrive', { babyName })}</h1>
         <p className="text-sm text-gray-600 mt-1">
-          Due date: <strong>{formatISODate(babyData.due_date)}</strong>
+          {t('dueDate')}: <strong>{formatISODate(babyData.due_date)}</strong>
         </p>
       </div>
 
@@ -109,22 +115,19 @@ export default async function BabyPage({ params }: { params: { baby_slug: string
         guessCounts={guessCounts}
         guessProfiles={guessProfiles}
         dueDate={dueDate}
+        locale={params.locale}
       />
 
-      <RulesCard />
+      <RulesCard locale={params.locale} />
       
       <div className="text-xs text-gray-500 space-y-1">
-        <p>
-          💳 Choose Venmo or Cash payment • Venmo redirects automatically • Cash requires in-person confirmation
-        </p>
-        <p>
-          📝 Want to bet on multiple days? Submit the form once per date!
-        </p>
+        <p>{t('venmoOrCash')}</p>
+        <p>{t('multipleDays')}</p>
       </div>
 
       <div className="text-center pt-2">
-        <Link href="/rules" className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
-          Read detailed rules & FAQ →
+        <Link href={`/${params.locale}/rules`} className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
+          {tCommon('readDetailedRules')}
         </Link>
       </div>
     </main>

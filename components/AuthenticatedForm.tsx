@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import type { User } from '@supabase/supabase-js'
 import DateCarousel from './DateCarousel'
+import { useTranslations } from 'next-intl'
 
 type ActionState = {
   ok: boolean
@@ -21,6 +22,7 @@ export default function AuthenticatedForm({
   guessProfiles,
   dueDate,
   user,
+  locale,
 }: {
   createGuess: (state: ActionState, formData: FormData) => Promise<ActionState>
   windowStart: Date
@@ -29,18 +31,20 @@ export default function AuthenticatedForm({
   guessProfiles: Record<string, string[]>
   dueDate: Date
   user: User
+  locale: string
 }) {
   const [state, formAction] = useFormState(createGuess, { ok: false })
   const [paymentMethod, setPaymentMethod] = useState<'venmo' | 'cash'>('venmo')
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const t = useTranslations('form')
 
   useEffect(() => {
     if (state.ok) {
       if (state.paymentMethod === 'venmo' && state.venmoDeep && state.venmoWeb) {
         // Redirect to Venmo
-        const t = setTimeout(() => (window.location.href = state.venmoWeb!), 1200)
+        const timer = setTimeout(() => (window.location.href = state.venmoWeb!), 1200)
         try { window.location.href = state.venmoDeep } catch {}
-        return () => clearTimeout(t)
+        return () => clearTimeout(timer)
       }
       // For cash, success message is shown below
     }
@@ -51,8 +55,8 @@ export default function AuthenticatedForm({
   return (
     <form action={formAction} className="space-y-4 rounded-2xl border p-4 shadow-sm bg-blue-50 border-blue-200">
       <div className="pb-2 border-b border-blue-200">
-        <h3 className="font-semibold text-lg">Authenticated Bet</h3>
-        <p className="text-xs text-gray-600">Betting as {displayName}</p>
+        <h3 className="font-semibold text-lg">{t('authenticatedBet')}</h3>
+        <p className="text-xs text-gray-600">{t('bettingAs')} {displayName}</p>
       </div>
 
       {/* Hidden input for name (auto-filled from user profile) */}
@@ -61,7 +65,7 @@ export default function AuthenticatedForm({
       <input type="hidden" name="userId" value={user.id} />
 
       <div className="space-y-2">
-        <span className="text-sm font-medium block">Payment method</span>
+        <span className="text-sm font-medium block">{t('paymentMethod')}</span>
         <div className="flex gap-4">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -72,7 +76,7 @@ export default function AuthenticatedForm({
               onChange={(e) => setPaymentMethod(e.target.value as 'venmo' | 'cash')}
               className="w-4 h-4"
             />
-            <span className="text-sm">💳 Venmo</span>
+            <span className="text-sm">{t('venmo')}</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -83,7 +87,7 @@ export default function AuthenticatedForm({
               onChange={(e) => setPaymentMethod(e.target.value as 'venmo' | 'cash')}
               className="w-4 h-4"
             />
-            <span className="text-sm">💵 Cash</span>
+            <span className="text-sm">{t('cash')}</span>
           </label>
         </div>
       </div>
@@ -108,20 +112,20 @@ export default function AuthenticatedForm({
         disabled={!selectedDate}
         className="w-full rounded-xl bg-blue-600 px-4 py-2 text-white disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors hover:bg-blue-700"
       >
-        {paymentMethod === 'venmo' ? 'Place bet & Pay with Venmo' : 'Place bet (Pay cash in person)'}
+        {paymentMethod === 'venmo' ? t('submitBetVenmo') : t('submitBetCash')}
       </button>
       
       {state.ok && state.code && (
         <div className="text-sm p-3 rounded-lg bg-green-50 border border-green-200 text-green-800">
-          <p className="font-semibold">✓ Bet placed! Your code: <strong>{state.code}</strong></p>
+          <p className="font-semibold">{t('betPlaced')} <strong>{state.code}</strong></p>
           {state.paymentMethod === 'venmo' && state.venmoWeb && (
             <p className="text-xs mt-1">
-              If Venmo didn't open, <a className="underline" href={state.venmoWeb}>tap here</a>.
+              {t('venmoDidntOpen')} <a className="underline" href={state.venmoWeb}>{t('tapHere')}</a>.
             </p>
           )}
           {state.paymentMethod === 'cash' && (
             <p className="text-xs mt-1">
-              Remember to pay cash in person to finalize your bet!
+              {t('rememberCash')}
             </p>
           )}
         </div>
@@ -129,4 +133,3 @@ export default function AuthenticatedForm({
     </form>
   )
 }
-
