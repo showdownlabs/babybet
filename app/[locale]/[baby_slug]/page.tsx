@@ -6,6 +6,7 @@ import RulesCard from '@/components/RulesCard'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
+import { headers } from 'next/headers'
 
 export const dynamic = 'force-dynamic'
 
@@ -147,6 +148,15 @@ async function createGuess(babyId: string, _: ActionState, formData: FormData): 
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(guessDateStr)) return { ok: false, error: 'Pick a valid date.' }
 
+  // Get country from IP address using Cloudflare headers (or X-Forwarded-For)
+  const headersList = headers()
+  let country = headersList.get('cf-ipcountry') || 
+                headersList.get('x-vercel-ip-country') || 
+                'US' // Default to US if we can't detect
+  
+  // Normalize country code
+  country = country.toUpperCase()
+
   const sb = supabaseServer()
   
   // Fetch baby to validate dates
@@ -179,6 +189,7 @@ async function createGuess(babyId: string, _: ActionState, formData: FormData): 
     code,
     payment_provider: paymentMethod,
     baby_id: babyId,
+    country, // Add country to the guess
   }
   
   // Add user_id if provided (authenticated user)

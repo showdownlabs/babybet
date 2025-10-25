@@ -34,7 +34,9 @@ export default function AuthenticatedForm({
   locale: string
 }) {
   const [state, formAction] = useFormState(createGuess, { ok: false })
-  const [paymentMethod, setPaymentMethod] = useState<'venmo' | 'cash'>('venmo')
+  // Hide Venmo for Spanish locale (Mexico) since Venmo isn't available there
+  const showVenmo = locale !== 'es'
+  const [paymentMethod, setPaymentMethod] = useState<'venmo' | 'cash'>(showVenmo ? 'venmo' : 'cash')
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const t = useTranslations('form')
 
@@ -67,17 +69,19 @@ export default function AuthenticatedForm({
       <div className="space-y-2">
         <span className="text-sm font-medium block">{t('paymentMethod')}</span>
         <div className="flex gap-4">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="venmo"
-              checked={paymentMethod === 'venmo'}
-              onChange={(e) => setPaymentMethod(e.target.value as 'venmo' | 'cash')}
-              className="w-4 h-4"
-            />
-            <span className="text-sm">{t('venmo')}</span>
-          </label>
+          {showVenmo && (
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="venmo"
+                checked={paymentMethod === 'venmo'}
+                onChange={(e) => setPaymentMethod(e.target.value as 'venmo' | 'cash')}
+                className="w-4 h-4"
+              />
+              <span className="text-sm">{t('venmo')}</span>
+            </label>
+          )}
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
