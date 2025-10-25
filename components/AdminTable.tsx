@@ -4,7 +4,7 @@ export default async function AdminTable() {
   const sb = supabaseServer()
   const { data } = await sb
     .from('guesses')
-    .select('id, created_at, name, guess_date, code, paid, paid_at, payment_provider')
+    .select('id, created_at, name, guess_date, code, paid, paid_at, payment_provider, babies(firstname, lastname, url_path)')
     .order('created_at', { ascending: false })
 
   async function markPaid(formData: FormData) {
@@ -24,6 +24,7 @@ export default async function AdminTable() {
         <thead>
           <tr className="text-left text-gray-600">
             <th className="p-2">When</th>
+            <th className="p-2">Baby</th>
             <th className="p-2">Name</th>
             <th className="p-2">Guess</th>
             <th className="p-2">Code</th>
@@ -32,29 +33,41 @@ export default async function AdminTable() {
           </tr>
         </thead>
         <tbody>
-          {data?.map((r) => (
-            <tr key={r.id} className="border-t">
-              <td className="p-2">{new Date(r.created_at!).toLocaleString()}</td>
-              <td className="p-2">{r.name}</td>
-              <td className="p-2">{r.guess_date}</td>
-              <td className="p-2 font-mono">{r.code}</td>
-              <td className="p-2">
-                <span className="inline-flex items-center gap-1">
-                  {r.payment_provider === 'venmo' ? '💳' : '💵'}
-                  <span className="capitalize">{r.payment_provider || 'venmo'}</span>
-                </span>
-              </td>
-              <td className="p-2">
-                <form action={markPaid} className="inline-flex items-center gap-2">
-                  <input type="hidden" name="id" value={r.id} />
-                  <input type="hidden" name="paid" value={(!r.paid).toString()} />
-                  <button className={`rounded-md px-3 py-1 text-white ${r.paid ? 'bg-green-600' : 'bg-gray-400'}`}>
-                    {r.paid ? 'Paid' : 'Mark paid'}
-                  </button>
-                </form>
-              </td>
-            </tr>
-          ))}
+          {data?.map((r: any) => {
+            const baby = r.babies
+            const babyName = baby?.firstname 
+              ? `${baby.firstname} ${baby.lastname}` 
+              : baby?.lastname || 'Unknown'
+            
+            return (
+              <tr key={r.id} className="border-t">
+                <td className="p-2">{new Date(r.created_at!).toLocaleString()}</td>
+                <td className="p-2">
+                  <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                    {babyName}
+                  </span>
+                </td>
+                <td className="p-2">{r.name}</td>
+                <td className="p-2">{r.guess_date}</td>
+                <td className="p-2 font-mono">{r.code}</td>
+                <td className="p-2">
+                  <span className="inline-flex items-center gap-1">
+                    {r.payment_provider === 'venmo' ? '💳' : '💵'}
+                    <span className="capitalize">{r.payment_provider || 'venmo'}</span>
+                  </span>
+                </td>
+                <td className="p-2">
+                  <form action={markPaid} className="inline-flex items-center gap-2">
+                    <input type="hidden" name="id" value={r.id} />
+                    <input type="hidden" name="paid" value={(!r.paid).toString()} />
+                    <button className={`rounded-md px-3 py-1 text-white ${r.paid ? 'bg-green-600' : 'bg-gray-400'}`}>
+                      {r.paid ? 'Paid' : 'Mark paid'}
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

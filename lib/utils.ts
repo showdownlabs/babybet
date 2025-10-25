@@ -13,7 +13,15 @@ export function genCode(name: string) {
   return `${initials}-${rnd}`
 }
 
-export function formatISODate(d: Date) {
+export function formatISODate(d: Date | string) {
+  if (typeof d === 'string') {
+    // If already a string, just return it if it's in YYYY-MM-DD format
+    if (/^\d{4}-\d{2}-\d{2}/.test(d)) {
+      return d.slice(0, 10)
+    }
+    // Otherwise convert to Date first
+    d = new Date(d)
+  }
   return d.toISOString().slice(0, 10) // YYYY-MM-DD
 }
 
