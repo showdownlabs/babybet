@@ -41,6 +41,7 @@ export default function GuestForm({
   const [guestName, setGuestName] = useState('')
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isConfirmed, setIsConfirmed] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const t = useTranslations('form')
 
@@ -59,6 +60,11 @@ export default function GuestForm({
   }, [state])
 
   const handleSubmit = (e: React.FormEvent) => {
+    // If already confirmed, let the form submit normally
+    if (isConfirmed) {
+      return
+    }
+    
     e.preventDefault()
     
     // Validate form
@@ -75,10 +81,15 @@ export default function GuestForm({
 
   const handleConfirm = () => {
     setIsSubmitting(true)
-    // Actually submit the form
-    if (formRef.current) {
-      formRef.current.requestSubmit()
-    }
+    setIsConfirmed(true)
+    setShowConfirmModal(false)
+    
+    // Submit the form after state updates
+    setTimeout(() => {
+      if (formRef.current) {
+        formRef.current.requestSubmit()
+      }
+    }, 0)
   }
 
   return (
