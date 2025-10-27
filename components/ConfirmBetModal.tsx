@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { parseLocalDate } from '@/lib/utils'
 
 type ConfirmBetModalProps = {
   isOpen: boolean
@@ -28,7 +29,7 @@ export default function ConfirmBetModal({
   if (!isOpen) return null
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
+    const date = parseLocalDate(dateStr)
     return date.toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
       weekday: 'long',
       month: 'long',

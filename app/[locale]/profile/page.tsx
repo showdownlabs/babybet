@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabaseServerAuth'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
+import { parseLocalDate } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -151,7 +152,7 @@ export default async function ProfilePage({ params: { locale } }: { params: { lo
                       </div>
                       <div className="space-y-1 text-sm text-gray-600">
                         <p>
-                          <strong>{t('guessDate')}:</strong> {new Date(guess.guess_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { 
+                          <strong>{t('guessDate')}:</strong> {parseLocalDate(guess.guess_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { 
                             weekday: 'long', 
                             year: 'numeric', 
                             month: 'long', 
@@ -159,7 +160,7 @@ export default async function ProfilePage({ params: { locale } }: { params: { lo
                           })}
                         </p>
                         <p>
-                          <strong>{t('dueDate')}:</strong> {new Date(baby.due_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US')}
+                          <strong>{t('dueDate')}:</strong> {parseLocalDate(baby.due_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US')}
                         </p>
                         <p>
                           <strong>{t('code')}:</strong> <code className="px-2 py-0.5 bg-gray-100 rounded font-mono">{guess.code}</code>

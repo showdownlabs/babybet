@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useState, useEffect } from 'react'
 import DateGuessDetails from './DateGuessDetails'
+import { formatLocalDate } from '@/lib/utils'
 
 type Guess = {
   id: string
@@ -52,7 +53,7 @@ export default function DateCarousel({
     current.setDate(current.getDate() + 1)
   }
 
-  const dueDateStr = dueDate.toISOString().slice(0, 10)
+  const dueDateStr = formatLocalDate(dueDate)
 
   // Check scroll position
   const checkScroll = () => {
@@ -124,7 +125,7 @@ export default function DateCarousel({
           }}
         >
           {allDates.map((date) => {
-            const dateStr = date.toISOString().slice(0, 10)
+            const dateStr = formatLocalDate(date)
             const isDueDate = dateStr === dueDateStr
             const isSelected = dateStr === selectedDate
             const count = guessCounts[dateStr] || 0

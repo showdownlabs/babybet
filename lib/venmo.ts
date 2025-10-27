@@ -1,11 +1,12 @@
 import { config } from './config'
+import { formatLocalDate } from './utils'
 
 export function buildVenmoNote(name: string, dateISO: string, code: string) {
   return config.venmoNoteTemplate
     .replace('{name}', name)
     .replace('{date}', dateISO)
     .replace('{code}', code)
-    .replace('{dueDate}', config.dueDate.toISOString().slice(0,10))
+    .replace('{dueDate}', formatLocalDate(config.dueDate))
 }
 
 export function venmoLinks(note: string) {

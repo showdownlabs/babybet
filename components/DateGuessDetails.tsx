@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { parseLocalDate } from '@/lib/utils'
 
 type Guess = {
   id: string
@@ -28,7 +29,7 @@ export default function DateGuessDetails({ date, guesses, locale, onClose }: Dat
   const pendingCount = guesses.filter(g => !g.paid).length
 
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
+    return parseLocalDate(dateStr).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
       weekday: 'long',
       month: 'long',
       day: 'numeric'

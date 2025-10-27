@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers'
+import { parseLocalDate } from './utils'
 
 function required(name: string): string {
   const v = process.env[name]
@@ -18,9 +19,9 @@ function getConfig() {
     supabaseUrl: required('NEXT_PUBLIC_SUPABASE_URL'),
     supabaseAnonKey: required('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
     supabaseServiceRole: required('SUPABASE_SERVICE_ROLE_KEY'),
-    dueDate: new Date(optional('DUE_DATE', '2025-02-25')),
-    windowStart: new Date(optional('WINDOW_START', '2025-02-15')),
-    windowEnd: new Date(optional('WINDOW_END', '2025-03-10')),
+    dueDate: parseLocalDate(optional('DUE_DATE', '2025-02-25')),
+    windowStart: parseLocalDate(optional('WINDOW_START', '2025-02-15')),
+    windowEnd: parseLocalDate(optional('WINDOW_END', '2025-03-10')),
     venmoRecipient: required('VENMO_RECIPIENT'),
     venmoAmount: optional('VENMO_AMOUNT', '5'),
     venmoNoteTemplate: optional('VENMO_NOTE_TEMPLATE', 'Baby Bet — {name} — {date} — {code} — Due {dueDate}'),

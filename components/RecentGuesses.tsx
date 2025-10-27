@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { useAuth } from './AuthProvider'
+import { parseLocalDate } from '@/lib/utils'
 
 type Guess = {
   id: string
@@ -80,7 +81,7 @@ export default function RecentGuesses({ guesses, locale, isAuthenticated }: Rece
   }
 
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
+    return parseLocalDate(dateStr).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
       month: 'short',
       day: 'numeric'
     })

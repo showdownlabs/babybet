@@ -1,7 +1,7 @@
 import { supabaseServer } from '@/lib/supabaseServer'
 import { createClient as createAuthClient } from '@/lib/supabaseServerAuth'
 import { buildVenmoNote, venmoLinks } from '@/lib/venmo'
-import { clampName, genCode, formatISODate } from '@/lib/utils'
+import { clampName, genCode, formatISODate, parseLocalDate } from '@/lib/utils'
 import BetFormContainer from '@/components/BetFormContainer'
 import RulesCard from '@/components/RulesCard'
 import RecentGuesses from '@/components/RecentGuesses'
@@ -121,10 +121,10 @@ export default async function BabyPage({
       : null
   })) || []) as any[]
 
-  // Convert date strings to Date objects
-  const dueDate = new Date(babyData.due_date)
-  const windowStart = new Date(babyData.window_start)
-  const windowEnd = new Date(babyData.window_end)
+  // Convert date strings to Date objects (using local timezone)
+  const dueDate = parseLocalDate(babyData.due_date)
+  const windowStart = parseLocalDate(babyData.window_start)
+  const windowEnd = parseLocalDate(babyData.window_end)
 
   // Display baby name
   const babyName = babyData.firstname 
@@ -206,9 +206,9 @@ async function createGuess(babyId: string, _: ActionState, formData: FormData): 
     return { ok: false, error: 'Baby not found.' }
   }
 
-  const guessDate = new Date(guessDateStr)
-  const windowStart = new Date(baby.window_start)
-  const windowEnd = new Date(baby.window_end)
+  const guessDate = parseLocalDate(guessDateStr)
+  const windowStart = parseLocalDate(baby.window_start)
+  const windowEnd = parseLocalDate(baby.window_end)
 
   if (isNaN(guessDate.getTime())) return { ok: false, error: 'Invalid date.' }
   if (guessDate < windowStart || guessDate > windowEnd) {

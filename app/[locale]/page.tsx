@@ -2,6 +2,7 @@ import { supabaseServer } from '@/lib/supabaseServer'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { parseLocalDate } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -136,7 +137,7 @@ export default async function Page({ params: { locale } }: { params: { locale: s
                       {babyName}
                     </h3>
                     <p className="text-gray-600">
-                      {t('dueDate')}: <strong>{new Date(baby.due_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US')}</strong>
+                      {t('dueDate')}: <strong>{parseLocalDate(baby.due_date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US')}</strong>
                     </p>
                     <div className="pt-2">
                       <span className="inline-flex items-center text-blue-600 font-medium group-hover:gap-2 transition-all">
