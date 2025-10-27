@@ -16,12 +16,12 @@ type ActionState = {
 
 type Props = {
   createGuess: (_: ActionState, formData: FormData) => Promise<ActionState>
-  windowStart: Date
-  windowEnd: Date
+  windowStart: string
+  windowEnd: string
   guessCounts: Record<string, number>
   guessProfiles: Record<string, string[]>
   guessesByDate: Record<string, any[]>
-  dueDate: Date
+  dueDate: string
   locale: string
 }
 

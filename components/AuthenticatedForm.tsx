@@ -5,6 +5,7 @@ import type { User } from '@supabase/supabase-js'
 import DateCarousel from './DateCarousel'
 import ConfirmBetModal from './ConfirmBetModal'
 import { useTranslations } from 'next-intl'
+import { parseLocalDate } from '@/lib/utils'
 
 type ActionState = {
   ok: boolean
@@ -27,15 +28,19 @@ export default function AuthenticatedForm({
   locale,
 }: {
   createGuess: (state: ActionState, formData: FormData) => Promise<ActionState>
-  windowStart: Date
-  windowEnd: Date
+  windowStart: string
+  windowEnd: string
   guessCounts: Record<string, number>
   guessProfiles: Record<string, string[]>
   guessesByDate: Record<string, any[]>
-  dueDate: Date
+  dueDate: string
   user: User
   locale: string
 }) {
+  // Parse date strings to Date objects
+  const windowStartDate = parseLocalDate(windowStart)
+  const windowEndDate = parseLocalDate(windowEnd)
+  const dueDateObj = parseLocalDate(dueDate)
   const [state, formAction] = useFormState(createGuess, { ok: false })
   // Hide Venmo for Spanish locale (Mexico) since Venmo isn't available there
   const showVenmo = locale !== 'es'
@@ -139,9 +144,9 @@ export default function AuthenticatedForm({
       </div>
 
       <DateCarousel
-        windowStart={windowStart}
-        windowEnd={windowEnd}
-        dueDate={dueDate}
+        windowStart={windowStartDate}
+        windowEnd={windowEndDate}
+        dueDate={dueDateObj}
         guessCounts={guessCounts}
         guessProfiles={guessProfiles}
         guessesByDate={guessesByDate}

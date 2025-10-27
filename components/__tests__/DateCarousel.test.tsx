@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@/__tests__/test-utils'
+import { render, screen, fireEvent } from '@/test-utils'
 import DateCarousel from '../DateCarousel'
 import { parseLocalDate, formatLocalDate } from '@/lib/utils'
 

@@ -142,12 +142,12 @@ export default async function BabyPage({
 
       <BetFormContainer 
         createGuess={createGuess.bind(null, babyData.id)} 
-        windowStart={windowStart} 
-        windowEnd={windowEnd}
+        windowStart={babyData.window_start} 
+        windowEnd={babyData.window_end}
         guessCounts={guessCounts}
         guessProfiles={guessProfiles}
         guessesByDate={guessesByDate}
-        dueDate={dueDate}
+        dueDate={babyData.due_date}
         locale={params.locale}
       />
 
